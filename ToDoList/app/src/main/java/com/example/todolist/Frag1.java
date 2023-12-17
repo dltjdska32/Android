@@ -1,12 +1,12 @@
 package com.example.todolist;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,17 +14,27 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Frag1 extends Fragment {
+public class Frag1 extends Fragment/* implements OnItemListener*/ {
 
-    TextView monthYearText; //년월 텍스트부
-    LocalDate selectedDate; //년월 변수
-    RecyclerView recyclerView;
+    private TextView monthYearText; //년월 텍스트부
+    private TextView ongoingCount; //진행중인 일정-
+    private TextView accomplishedCount; //완료된 일정
+
+    private ArrayList<ToDoItem> toDoItems;
+    private DBHelper mDBHelper;
+    private LocalDate selectedDate; //년월 변수
+    private RecyclerView recyclerView;
     private View view;
+    private MyViewModel myViewModel;
 
     @Nullable
     @Override
@@ -39,14 +49,37 @@ public class Frag1 extends Fragment {
         //현재날짜
         selectedDate = LocalDate.now();
 
+
+        mDBHelper = new DBHelper(getContext());
+
+        toDoItems = mDBHelper.getToDoList();
+        Log.d("lsn", "onCreateView: " +toDoItems.size());
+
+
+        String DBsize = String.valueOf(toDoItems.size());
+
+        ongoingCount = view.findViewById(R.id.ongoing);
+
+        ongoingCount.setText(DBsize);
+
+        myViewModel = new ViewModelProvider(this, new MyViewModelFactory()).get(MyViewModel.class);
+
+
+        myViewModel.getDBsize().observe(getViewLifecycleOwner(), newSize -> {
+            ongoingCount.setText(newSize);
+        });
+
         //화면 설정
         setMonthview();
+
+
 
         //이전달 버튼 이벤트
         preBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // - 1 한 달을 넣어줌
+                selectedDate = selectedDate.minusMonths(1);
                 selectedDate = selectedDate.minusMonths(1);
                 setMonthview();
             }
@@ -80,7 +113,7 @@ public class Frag1 extends Fragment {
         //해당 월 날짜 가져오기
         ArrayList<LocalDate> dayList = daysInMonthArray(selectedDate);
         // 어뎁터 데이터 적용
-        CalendarAdapter adapter = new CalendarAdapter(dayList);
+        CalendarAdapter adapter = new CalendarAdapter(dayList,myViewModel);
 
         // 레이아웃 설정 열 7
         RecyclerView.LayoutManager manager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
@@ -116,4 +149,25 @@ public class Frag1 extends Fragment {
     }
 
 
+/*    @Override
+    public void onItemClick(String DBsize) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(!Thread.interrupted()){
+                        try{
+                            Thread.sleep(100);
+                            runOnUiThread(new Runnable(){
+
+                            })
+                        }
+                    }
+                }
+
+            });*/
+
+   // };
 }
+
+
+

@@ -14,7 +14,15 @@
         android:text="1"
         android:textSize="25sp"
         android:textStyle="bold"/>
+    <!-- 일정이 db 테이블에 들어가면 해당 날짜에 점을찍는다 -->
+    <View
+        android:id="@+id/dot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/dayText"
+        android:background="#8692F3"
+        android:visibility="invisible" /> <!-- 기본적으로는 표시하지 않음 -->
 
-   
 
 </LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 첫 번째 그룹 -->
+    <item android:bottom="2dp"> <!-- 간격 조절 -->
+        <shape>
+            <corners android:radius="12dp"/> <!-- 모서리를 둥글게 설정 -->
+            <solid android:color="#00CCCCCC" />
+        </shape>
+    </item>
+
+    <!-- 두 번째 그룹 -->
+    <item android:top="2dp"> <!-- 간격 조절 -->
+        <shape>
+            <corners android:radius="12dp"/> <!-- 모서리를 둥글게 설정 -->
+            <solid android:color="#06CCCCCC" />
+        </shape>
+    </item>
+
+    <!-- Background -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+</layer-list>
