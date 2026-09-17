@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.navigationviewkt"
+    namespace = "com.example.sharedpreferenceskt"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.navigationviewkt"
+        applicationId = "com.example.sharedpreferenceskt"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
@@ -37,7 +37,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
-    implementation("com.google.android.material:material:1.14.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
